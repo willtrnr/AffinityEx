@@ -39,10 +39,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePlugin.cs" />
+    <Compile Include="PluginBase.cs" />
     <Compile Include="IPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="Serif.Affinity">
       <HintPath>..\..\..\..\..\..\..\Program Files\Affinity\Designer\Serif.Affinity.dll</HintPath>
       <Private>False</Private>

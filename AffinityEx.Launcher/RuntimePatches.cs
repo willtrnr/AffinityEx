@@ -1,17 +1,18 @@
 ﻿using System.Reflection;
 using HarmonyLib;
+using Serilog;
 
 namespace AffinityEx.Launcher {
 
     public static class RuntimePatches {
 
-        private static readonly Harmony harmony = new Harmony("net.archwill.afinityex.runtime");
-
         public static void Apply() {
-            PatchEntryAssembly();
+            Log.Debug("Applying runtime patches");
+            var harmony = new Harmony("net.archwill.afinityex.runtime");
+            PatchEntryAssembly(harmony);
         }
 
-        private static void PatchEntryAssembly() {
+        private static void PatchEntryAssembly(Harmony harmony) {
             harmony.Patch(
                 original: AccessTools.Method(typeof(Assembly), "GetEntryAssembly"),
                 prefix: new HarmonyMethod(typeof(Impl), nameof(Impl.Assembly_GetEntryAssembly_Prefix))

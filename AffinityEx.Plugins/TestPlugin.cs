@@ -1,16 +1,11 @@
 ﻿using System.Collections.Generic;
-using Serif.Interop.Persona;
 using Serif.Affinity.Workspaces;
+using Serif.Interop.Persona.Data;
+using Serilog;
 
 namespace AffinityEx.Plugins {
 
-    public class TestPlugin : BasePlugin {
-
-        public override string Name => "TestPlugin";
-
-        public override bool IsProductSupported(Application.ProductID productID) {
-            return productID == Application.ProductID.Designer;
-        }
+    public class TestPlugin : PluginBase {
 
         public override IEnumerable<WorkspaceMenuItem> GetMenuItems(string workspaceName) {
             return new List<WorkspaceMenuItem>() {
@@ -25,11 +20,14 @@ namespace AffinityEx.Plugins {
             public override string Description => "Test Command";
 
             public override bool CanExecute(object parameter) {
-                return true;
+                return this.HasDocument;
             }
 
             public override void Execute(object parameter) {
-                throw new System.NotImplementedException();
+                var lds = new LayersDataSource(this);
+                foreach (var item in lds) {
+                    Log.Information(item.Text);
+                }
             }
 
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Microsoft.Win32;
+using Serilog;
 
 namespace AffinityEx.Launcher {
 
@@ -14,6 +15,7 @@ namespace AffinityEx.Launcher {
         }
 
         public Assembly Load(string filename) {
+            Log.Debug("Loading assembly '{Filename}' from install path '{InstallPath}'", filename, this.installPath);
             return Assembly.LoadFile(Path.Combine(this.installPath, filename));
         }
 
@@ -23,6 +25,7 @@ namespace AffinityEx.Launcher {
                 return null;
             }
             try {
+                Log.Debug("Loading assembly '{Assembly}' from install path '{InstallPath}'", args.Name, this.installPath);
                 return Assembly.LoadFile(path);
             } catch (FileNotFoundException) {
                 return null;
@@ -34,6 +37,7 @@ namespace AffinityEx.Launcher {
             if (path == null) {
                 throw new ArgumentException("Unable to find Affinity install path");
             }
+            Log.Information("{AppName} is installed in '{InstallPath}'", appName, path);
             return new AffinityAssemblyResolver(path);
         }
 
