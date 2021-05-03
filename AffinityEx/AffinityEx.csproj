@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILMerge.3.0.41\build\ILMerge.props" Condition="Exists('..\packages\ILMerge.3.0.41\build\ILMerge.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AffinityEx.Launcher.Designer\AffinityEx.Launcher.Designer.csproj">
@@ -50,6 +48,10 @@
     <ProjectReference Include="..\AffinityEx.Launcher.Photo\AffinityEx.Launcher.Photo.csproj">
       <Project>{125a4d24-c094-4cf2-98be-fd67d5a0dd7b}</Project>
       <Name>AffinityEx.Launcher.Photo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AffinityEx.Launcher.Publisher\AffinityEx.Launcher.Publisher.csproj">
+      <Project>{4470d8a0-f02b-4d00-95ec-e4157241a12d}</Project>
+      <Name>AffinityEx.Launcher.Publisher</Name>
     </ProjectReference>
     <ProjectReference Include="..\AffinityEx.Plugins\AffinityEx.Plugins.csproj">
       <Project>{468df7d3-def6-4518-81ad-b406d88e1c6d}</Project>
@@ -63,34 +65,12 @@ IF EXIST "$(ProjectDir)$(OutDir)*.pdb" DEL /Q "$(ProjectDir)$(OutDir)*.pdb"
 IF EXIST "$(ProjectDir)$(OutDir)*.xml" DEL /Q "$(ProjectDir)$(OutDir)*.xml"
 
 IF NOT EXIST "$(ProjectDir)$(OutDir)Plugins" MKDIR "$(ProjectDir)$(OutDir)Plugins"
-MOVE "$(ProjectDir)$(OutDir)AffinityEx.Plugins.*" "$(ProjectDir)$(OutDir)Plugins"
+IF EXIST "$(ProjectDir)$(OutDir)AffinityEx.Plugins.*" MOVE "$(ProjectDir)$(OutDir)AffinityEx.Plugins.*" "$(ProjectDir)$(OutDir)Plugins"
 
-"$(ILMergeConsolePath)" /ndebug ^
-  "/lib:C:\Program Files\Affinity\Designer" ^
-  "/out:$(ProjectDir)$(OutDir)DesignerEx.exe" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.Designer.exe" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.dll"
-
-"$(ILMergeConsolePath)" /ndebug ^
-  "/lib:C:\Program Files\Affinity\Photo" ^
-  "/out:$(ProjectDir)$(OutDir)PhotoEx.exe" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.Photo.exe" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.dll"
-
-DEL ^
-  "$(ProjectDir)$(OutDir)AffinityEx.dll" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.dll" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.Designer.exe" ^
-  "$(ProjectDir)$(OutDir)AffinityEx.Launcher.Photo.exe"</PostBuildEvent>
+IF EXIST "$(ProjectDir)$(OutDir)AffinityEx.dll" DEL "$(ProjectDir)$(OutDir)AffinityEx.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>IF EXIST "$(ProjectDir)$(OutDir)Plugins\*.*" DEL /Q "$(ProjectDir)$(OutDir)Plugins\*.*"
 IF EXIST "$(ProjectDir)$(OutDir)*.*" DEL /Q "$(ProjectDir)$(OutDir)*.*"</PreBuildEvent>
   </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILMerge.3.0.41\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.41\build\ILMerge.props'))" />
-  </Target>
 </Project>
