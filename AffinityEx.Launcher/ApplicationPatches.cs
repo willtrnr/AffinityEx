@@ -60,7 +60,7 @@ namespace AffinityEx.Launcher {
 
         private static void PatchWorkspaces(Harmony harmony) {
             var menuPatch = new HarmonyMethod(typeof(Impl), nameof(Impl.Workspace_GetDefaultMenu_Postfix));
-            var shortcutsPatch = new HarmonyMethod(typeof(Impl), nameof(Impl.Workspace_GetDefauShortcuts_Postfix));
+            var shortcutsPatch = new HarmonyMethod(typeof(Impl), nameof(Impl.Workspace_GetDefaultShortcuts_Postfix));
             foreach (Type type in workspaceTypes) {
                 harmony.Patch(AccessTools.Method(type, "GetDefaultMenu"), postfix: menuPatch);
                 harmony.Patch(AccessTools.Method(type, "GetDefaultShortcuts"), postfix: shortcutsPatch);
@@ -120,40 +120,26 @@ namespace AffinityEx.Launcher {
                     }
                 }
                 if (pluginItems.Count > 0) {
-                    Log.Debug("Plugin items available, injecting AffinityEx menu in workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
+                    Log.Debug("Plugin menu items available, injecting AffinityEx menu in workspace {WorkspaceName}", __instance.Name);
                     var items = new List<WorkspaceMenuItem>(__result);
                     items.Add(new WorkspaceMenuItem("AffinityEx", pluginItems));
                     __result = items.AsReadOnly();
                 }
             }
 
-            internal static void Workspace_GetDefauShortcuts_Postfix(Workspace __instance, ref WorkspaceShortcuts __result) {
+            internal static void Workspace_GetDefaultShortcuts_Postfix(Workspace __instance, ref WorkspaceShortcuts __result) {
                 Log.Debug("Intercepted GetDefaultShortcuts for workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
                 foreach (var plugin in AppContext.Current.Plugins) {
-                    var shortcuts = plugin.GetShortcuts(__instance);
-                    if (shortcuts != null) {
-                        if (__result.Commands == null) {
-                            __result.Commands = shortcuts.Commands;
-                        } else if (shortcuts.Commands != null) {
-                            __result.Commands.AddRange(shortcuts.Commands);
-                        }
-                        if (__result.GlobalCommands == null) {
-                            __result.GlobalCommands = shortcuts.GlobalCommands;
-                        } else if (shortcuts.GlobalCommands != null) {
-                            __result.GlobalCommands.AddRange(shortcuts.GlobalCommands);
-                        }
-                        if (__result.ToolTypes == null) {
-                            __result.ToolTypes = shortcuts.ToolTypes;
-                        } else if (shortcuts.ToolTypes != null) {
-                            __result.ToolTypes.AddRange(shortcuts.ToolTypes);
-                        }
-                        if (__result.ToolKeys == null) {
-                            __result.ToolKeys = shortcuts.ToolKeys;
-                        } else if (shortcuts.ToolKeys != null) {
-                            __result.ToolKeys.AddRange(shortcuts.ToolKeys);
-                        }
+                    var pluginShortcuts = plugin.GetShortcuts(__instance);
+                    if (pluginShortcuts != null) {
+                        __result.Commands.AddRange(pluginShortcuts.Commands);
+                        __result.GlobalCommands.AddRange(pluginShortcuts.GlobalCommands);
+                        __result.ToolTypes.AddRange(pluginShortcuts.ToolTypes);
+                        __result.ToolKeys.AddRange(pluginShortcuts.ToolKeys);
                     }
                 }
+                // Bindings are cached on first read, we need to blow this value to regenerate bindings for our new commands
+                __result.Bindings = null;
             }
 
         }

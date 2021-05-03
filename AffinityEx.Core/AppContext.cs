@@ -89,10 +89,11 @@ namespace AffinityEx {
             if (this.Application != null) {
                 throw new InvalidOperationException("Application already started");
             }
-            Log.Information("Starting wrapped application");
+            Log.Information("Preparing execution");
             Directory.SetCurrentDirectory(this.InstallationDirectory);
             this.Application = (Serif.Affinity.Application) Activator.CreateInstance(this.ApplicationType);
             this.InitialisePlugins();
+            Log.Information("Starting wrapped application");
             this.Application.RunSingleInstance();
         }
 

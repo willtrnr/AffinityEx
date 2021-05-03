@@ -23,7 +23,10 @@ namespace AffinityEx.Plugins {
             switch (workspace.Name) {
                 case "Vector":
                     shortcuts.Commands = new List<WorkspaceCommandShortcut>() {
+                        // In Node edit tool, bind 'W' to toggle Transform Mode
                         new WorkspaceCommandShortcut(typeof(NodeToolTransformModeCommand), Key.W),
+                        // In Node edit tool, bind 'S' to smooth node
+                        new WorkspaceCommandShortcut(typeof(ChangeCurveNodeTypeSmoothCommand), Key.S),
                     };
                     break;
             }
