@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx", "AffinityEx\AffinityEx.csproj", "{1FCFEA33-6782-4D7A-88A8-CF6D71E3B564}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Core", "AffinityEx.Core\AffinityEx.Core.csproj", "{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Launcher", "AffinityEx.Launcher\AffinityEx.Launcher.csproj", "{AE12137B-B7C3-4588-8683-EB8632B77C62}"
@@ -25,6 +27,10 @@ Global
 		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Debug|x64.Build.0 = Debug|x64
 		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Release|x64.ActiveCfg = Release|x64
 		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Release|x64.Build.0 = Release|x64
+		{1FCFEA33-6782-4D7A-88A8-CF6D71E3B564}.Debug|x64.ActiveCfg = Debug|x64
+		{1FCFEA33-6782-4D7A-88A8-CF6D71E3B564}.Debug|x64.Build.0 = Debug|x64
+		{1FCFEA33-6782-4D7A-88A8-CF6D71E3B564}.Release|x64.ActiveCfg = Release|x64
+		{1FCFEA33-6782-4D7A-88A8-CF6D71E3B564}.Release|x64.Build.0 = Release|x64
 		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Debug|x64.ActiveCfg = Debug|x64
 		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Debug|x64.Build.0 = Debug|x64
 		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Release|x64.ActiveCfg = Release|x64

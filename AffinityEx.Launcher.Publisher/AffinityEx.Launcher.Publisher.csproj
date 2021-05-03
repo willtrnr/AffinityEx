@@ -55,4 +55,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(ProjectDir)$(OutDir)Plugins" mkdir "$(ProjectDir)$(OutDir)Plugins"
+move "$(ProjectDir)$(OutDir)AffinityEx.Plugins.*" "$(ProjectDir)$(OutDir)Plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
