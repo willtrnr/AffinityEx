@@ -4,11 +4,11 @@ using Serilog;
 
 namespace AffinityEx.Launcher {
 
-    public static class RuntimePatches {
+    public static class NetRuntimePatches {
 
         public static void Apply() {
-            Log.Debug("Applying runtime patches");
-            var harmony = new Harmony("net.archwill.afinityex.runtime");
+            Log.Debug("Applying CLR patches");
+            var harmony = new Harmony("net.archwill.afinityex.clr");
             PatchEntryAssembly(harmony);
         }
 

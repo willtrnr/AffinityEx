@@ -40,7 +40,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestPlugin.cs" />
+    <Compile Include="DesignerExtraShortcutsPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Serif.Affinity">
@@ -55,6 +55,7 @@
       <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AffinityEx.Core\AffinityEx.Core.csproj">

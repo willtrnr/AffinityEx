@@ -7,8 +7,31 @@ namespace AffinityEx {
 
     /// <summary>
     /// AffinityEx plugin interface.
+    /// Implementors MUST provide a nullary constructor for plugin loading to work.
     /// </summary>
     public interface IPlugin {
+
+        /// <summary>
+        /// User readable name for the plugin.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Long description for the plugin.
+        /// </summary>
+        string Description { get; }
+
+        /// <summary>
+        /// Homepage URL of the plugin.
+        /// </summary>
+        string HomepageUrl { get; }
+
+        /// <summary>
+        /// Verify if the plugin supports the given product.
+        /// </summary>
+        /// <param name="productID">The product ID to check</param>
+        /// <returns>If the plugin supports the product</returns>
+        bool IsProductSupported(Serif.Interop.Persona.Application.ProductID productID);
 
         /// <summary>
         /// Allows registering custom services during the initialisation process.
@@ -42,16 +65,16 @@ namespace AffinityEx {
         /// <summary>
         /// Allows adding custom menu items, all returned items will be added to the "AffinityEx" top menu.
         /// </summary>
-        /// <param name="workspaceName">The workspace name for which menu items should be provided</param>
+        /// <param name="workspace">The workspace for which menu items should be provided</param>
         /// <returns>Menu items to be added to the AffinityEx menu</returns>
-        IEnumerable<WorkspaceMenuItem> GetMenuItems(string workspaceName);
+        IEnumerable<WorkspaceMenuItem> GetMenuItems(Workspace workspace);
 
         /// <summary>
         /// Allows adding custom keyboard shortcuts.
         /// </summary>
-        /// <param name="workspaceName">The workspace name for which shortcuts should be provided</param>
+        /// <param name="workspace">The workspace for which shortcuts should be provided</param>
         /// <returns>The partial workspace shortcuts to merge with the global shortcuts or null if none</returns>
-        WorkspaceShortcuts GetShortcuts(string workspaceName);
+        WorkspaceShortcuts GetShortcuts(Workspace workspace);
 
     }
 

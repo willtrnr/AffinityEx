@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Core", "AffinityEx.Core\AffinityEx.Core.csproj", "{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Launcher", "AffinityEx.Launcher\AffinityEx.Launcher.csproj", "{AE12137B-B7C3-4588-8683-EB8632B77C62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Core", "AffinityEx.Core\AffinityEx.Core.csproj", "{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Launcher.Designer", "AffinityEx.Launcher.Designer\AffinityEx.Launcher.Designer.csproj", "{DB2E8A2B-1DE1-411C-B977-E3B4656D935F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Launcher.Photo", "AffinityEx.Launcher.Photo\AffinityEx.Launcher.Photo.csproj", "{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Launcher.Publisher", "AffinityEx.Launcher.Publisher\AffinityEx.Launcher.Publisher.csproj", "{4470D8A0-F02B-4D00-95EC-E4157241A12D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AffinityEx.Plugins", "AffinityEx.Plugins\AffinityEx.Plugins.csproj", "{468DF7D3-DEF6-4518-81AD-B406D88E1C6D}"
 EndProject
@@ -15,18 +21,30 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Debug|x64.ActiveCfg = Debug|x64
-		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Debug|x64.Build.0 = Debug|x64
-		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Release|x64.ActiveCfg = Release|x64
-		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Release|x64.Build.0 = Release|x64
-		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Debug|x64.ActiveCfg = Debug|x64
-		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Debug|x64.Build.0 = Debug|x64
-		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Release|x64.ActiveCfg = Release|x64
-		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Release|x64.Build.0 = Release|x64
+		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Debug|x64.ActiveCfg = Debug|x64
+		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Debug|x64.Build.0 = Debug|x64
+		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Release|x64.ActiveCfg = Release|x64
+		{125A4D24-C094-4CF2-98BE-FD67D5A0DD7B}.Release|x64.Build.0 = Release|x64
+		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Debug|x64.ActiveCfg = Debug|x64
+		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Debug|x64.Build.0 = Debug|x64
+		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Release|x64.ActiveCfg = Release|x64
+		{4470D8A0-F02B-4D00-95EC-E4157241A12D}.Release|x64.Build.0 = Release|x64
 		{468DF7D3-DEF6-4518-81AD-B406D88E1C6D}.Debug|x64.ActiveCfg = Debug|x64
 		{468DF7D3-DEF6-4518-81AD-B406D88E1C6D}.Debug|x64.Build.0 = Debug|x64
 		{468DF7D3-DEF6-4518-81AD-B406D88E1C6D}.Release|x64.ActiveCfg = Release|x64
 		{468DF7D3-DEF6-4518-81AD-B406D88E1C6D}.Release|x64.Build.0 = Release|x64
+		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Debug|x64.ActiveCfg = Debug|x64
+		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Debug|x64.Build.0 = Debug|x64
+		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Release|x64.ActiveCfg = Release|x64
+		{7BAAFA48-7410-43DB-8454-4ADB8DA8BDE7}.Release|x64.Build.0 = Release|x64
+		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Debug|x64.ActiveCfg = Debug|x64
+		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Debug|x64.Build.0 = Debug|x64
+		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Release|x64.ActiveCfg = Release|x64
+		{AE12137B-B7C3-4588-8683-EB8632B77C62}.Release|x64.Build.0 = Release|x64
+		{DB2E8A2B-1DE1-411C-B977-E3B4656D935F}.Debug|x64.ActiveCfg = Debug|x64
+		{DB2E8A2B-1DE1-411C-B977-E3B4656D935F}.Debug|x64.Build.0 = Debug|x64
+		{DB2E8A2B-1DE1-411C-B977-E3B4656D935F}.Release|x64.ActiveCfg = Release|x64
+		{DB2E8A2B-1DE1-411C-B977-E3B4656D935F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

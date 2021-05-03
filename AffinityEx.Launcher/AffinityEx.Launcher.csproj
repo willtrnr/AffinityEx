@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{AE12137B-B7C3-4588-8683-EB8632B77C62}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>AffinityEx.Launcher</RootNamespace>
     <AssemblyName>AffinityEx.Launcher</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,25 +32,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>AffinityEx.Launcher.Program</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AffinityAssemblyResolver.cs" />
-    <Compile Include="AppContext.cs" />
-    <Compile Include="AffinityPatches.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="RuntimePatches.cs" />
+    <Compile Include="AffinityExPlugin.cs" />
+    <Compile Include="ApplicationPatches.cs" />
+    <Compile Include="AppAssemblyResolver.cs" />
+    <Compile Include="Chainloders.cs" />
+    <Compile Include="PluginsManagerDialog.xaml.cs">
+      <DependentUpon>PluginsManagerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LauncherBase.cs" />
+    <Compile Include="NetRuntimePatches.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.2.0.4\lib\net472\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Serif.Affinity">
       <HintPath>..\..\..\..\..\..\..\Program Files\Affinity\Designer\Serif.Affinity.dll</HintPath>
@@ -60,38 +61,34 @@
       <HintPath>..\..\..\..\..\..\..\Program Files\Affinity\Designer\Serif.Interop.Persona.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Serif.Windows">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Affinity\Designer\Serif.Windows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Sinks.Debug, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+    <Reference Include="Serilog.Sinks.Debug, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL" Condition=" '$(Configuration)' == 'Debug' ">
       <HintPath>..\packages\Serilog.Sinks.Debug.2.0.0\lib\net46\Serilog.Sinks.Debug.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.File.4.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AffinityEx.Core\AffinityEx.Core.csproj">
       <Project>{7baafa48-7410-43db-8454-4adb8da8bde7}</Project>
       <Name>AffinityEx.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AffinityEx.Plugins\AffinityEx.Plugins.csproj">
-      <Project>{468df7d3-def6-4518-81ad-b406d88e1c6d}</Project>
-      <Name>AffinityEx.Plugins</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PluginsManagerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if not exist "$(ProjectDir)$(OutDir)Plugins" mkdir "$(ProjectDir)$(OutDir)Plugins"
-move "$(ProjectDir)$(OutDir)AffinityEx.Plugins.*" "$(ProjectDir)$(OutDir)Plugins\"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

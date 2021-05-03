@@ -9,7 +9,7 @@ using Serilog;
 
 namespace AffinityEx.Launcher {
 
-    public static class AffinityPatches {
+    public static class ApplicationPatches {
 
         private static readonly Type[] workspaceTypes = new Type[] {
             typeof(AstroStackWorkspace),
@@ -25,8 +25,8 @@ namespace AffinityEx.Launcher {
         };
 
         public static void Apply() {
-            Log.Debug("Applying Affinity application patches");
-            var harmony = new Harmony("net.archwill.afinityex.affinity");
+            Log.Debug("Applying application patches");
+            var harmony = new Harmony("net.archwill.affinityex.application");
             PatchApplication(harmony);
             PatchWorkspaces(harmony);
         }
@@ -114,10 +114,13 @@ namespace AffinityEx.Launcher {
                 Log.Debug("Intercepted GetDefaultMenu for workspace {WorkspaceName}", __instance.Name);
                 var pluginItems = new List<WorkspaceMenuItem>();
                 foreach (var plugin in AppContext.Current.Plugins) {
-                    pluginItems.AddRange(plugin.GetMenuItems(__instance.Name));
+                    var items = plugin.GetMenuItems(__instance);
+                    if (items != null) {
+                        pluginItems.AddRange(items);
+                    }
                 }
                 if (pluginItems.Count > 0) {
-                    Log.Debug("Injecting AffinityEx menu item in workspace {WorkspaceName}", __instance.Name);
+                    Log.Debug("Plugin items available, injecting AffinityEx menu in workspace {WorkspaceName}", __instance.Name);
                     var items = new List<WorkspaceMenuItem>(__result);
                     items.Add(new WorkspaceMenuItem("AffinityEx", pluginItems));
                     __result = items.AsReadOnly();
@@ -127,7 +130,7 @@ namespace AffinityEx.Launcher {
             internal static void Workspace_GetDefauShortcuts_Postfix(Workspace __instance, ref WorkspaceShortcuts __result) {
                 Log.Debug("Intercepted GetDefaultShortcuts for workspace {WorkspaceName}", __instance.Name);
                 foreach (var plugin in AppContext.Current.Plugins) {
-                    var shortcuts = plugin.GetShortcuts(__instance.Name);
+                    var shortcuts = plugin.GetShortcuts(__instance);
                     if (shortcuts != null) {
                         if (__result.Commands == null) {
                             __result.Commands = shortcuts.Commands;

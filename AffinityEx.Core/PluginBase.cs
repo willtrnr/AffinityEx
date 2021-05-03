@@ -1,22 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
+using System.Collections.Generic;
 using Serif.Affinity.Workspaces;
 using Serif.Interop.Persona.Services;
 
 namespace AffinityEx {
 
     /// <summary>
-    /// Base AffinityEx plugin class implementing the IPlugin interface with noop implementations.
+    /// Base AffinityEx plugin class implementing the IPlugin interface with noop operations.
+    /// Derived implementations MUST provide a nullary constructor for plugin loading to work.
     /// </summary>
     public abstract class PluginBase : IPlugin {
 
-        public virtual void InitialiseServices(ServiceManager manager) { }
+        public abstract string Name { get; }
 
-        public virtual IEnumerable<WorkspaceMenuItem> GetMenuItems(string workspaceName) {
-            return new List<WorkspaceMenuItem>();
+        public virtual string Description => "";
+
+        public virtual string HomepageUrl => "";
+
+        public virtual bool IsProductSupported(Serif.Interop.Persona.Application.ProductID productID) {
+            return true;
         }
 
-        public virtual WorkspaceShortcuts GetShortcuts(string workspaceName) {
+        public virtual void InitialiseServices(ServiceManager manager) { }
+
+        public virtual IEnumerable<WorkspaceMenuItem> GetMenuItems(Workspace workspace) {
+            return null;
+        }
+
+        public virtual WorkspaceShortcuts GetShortcuts(Workspace workspace) {
             return null;
         }
 

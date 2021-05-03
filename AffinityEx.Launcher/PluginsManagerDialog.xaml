@@ -1,0 +1,67 @@
+﻿<affui:AffinityDialog
+    x:Class="AffinityEx.Plugins.PluginsManagerDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:affui="clr-namespace:Serif.Affinity.UI;assembly=Serif.Affinity"
+    Title="Plugins Manager" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <FrameworkElement.Resources>
+        <ResourceDictionary>
+            <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemBase}">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="MinHeight" Value="17" />
+            </Style>
+            <Style x:Key="{x:Type ListBox}" TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
+                <Setter Property="Margin" Value="{DynamicResource DefaultUniformMargin}" />
+            </Style>
+            <Style x:Key="InnerGridStyle" TargetType="{x:Type Grid}">
+                <Setter Property="Margin" Value="6,6" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Border Width="500" Style="{DynamicResource DialogRootContainer}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Style="{StaticResource InnerGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Style="{StaticResource InnerGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Plugins" />
+                    <ListBox Grid.Row="1" x:Name="Plugins" Width="160" Height="215" AlternationCount="2" ItemsSource="{Binding Plugins}" SelectedIndex="{Binding SelectedPluginIndex, Mode=TwoWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+                <Grid Grid.Column="1" x:Name="SelectedPlugin"  DataContext="{Binding SelectedPlugin, Mode=OneWay}" Style="{StaticResource InnerGridStyle}" VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="SelectedPluginName" Content="{Binding Name, Mode=OneWay}" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" x:Name="SelectedPluginDescription" Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" />
+                    <TextBlock Grid.Row="2">
+                        <Hyperlink x:Name="SelectedPluginHomepageUrl" NavigateUri="{Binding HomepageUrl, Mode=OneWay}" RequestNavigate="SelectedPluginHomepageUrl_RequestNavigate">
+                            <TextBlock Text="{Binding HomepageUrl}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1" Style="{StaticResource InnerGridStyle}">
+                <Button x:Name="AcceptButton" Style="{DynamicResource DialogButton}" Content="Close" HorizontalAlignment="Right" />
+            </Grid>
+        </Grid>
+    </Border>
+</affui:AffinityDialog>
