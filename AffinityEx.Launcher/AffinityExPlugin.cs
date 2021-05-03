@@ -8,7 +8,7 @@ namespace AffinityEx.Plugins {
 
         public override string Name => "AffinityEx";
 
-        public override string Description => "Meta plugin for AffinityEx plugins.";
+        public override string Description => "Meta plugin for AffinityEx plugins, added automatically by the launcher.";
 
         public override string HomepageUrl => "https://github.com/willtrnr/AffinityEx";
 

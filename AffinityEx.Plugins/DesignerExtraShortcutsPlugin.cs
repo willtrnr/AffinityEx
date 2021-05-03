@@ -10,7 +10,7 @@ namespace AffinityEx.Plugins {
 
         public override string Name => "Designer Extra Shortcuts";
 
-        public override string Description => "Adds extra quality-of-life keyboard shortcuts.";
+        public override string Description => "Provides extra keyboard shortcuts in Designer for some commands not available in the keybind settings.";
 
         public override string HomepageUrl => "https://github.com/willtrnr/AffinityEx";
 
@@ -27,6 +27,8 @@ namespace AffinityEx.Plugins {
                         new WorkspaceCommandShortcut(typeof(NodeToolTransformModeCommand), Key.W),
                         // In Node edit tool, bind 'S' to smooth node
                         new WorkspaceCommandShortcut(typeof(ChangeCurveNodeTypeSmoothCommand), Key.S),
+                        // In Node edit tool, bind 'Shift+S' to sharp node
+                        new WorkspaceCommandShortcut(typeof(ChangeCurveNodeTypeSharpCommand), Key.S, ModifierKeys.Shift),
                     };
                     break;
             }
