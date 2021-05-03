@@ -111,7 +111,7 @@ namespace AffinityEx.Launcher {
             }
 
             internal static void Workspace_GetDefaultMenu_Postfix(Workspace __instance, ref ReadOnlyCollection<WorkspaceMenuItem> __result) {
-                Log.Debug("Intercepted GetDefaultMenu for workspace {WorkspaceName}", __instance.Name);
+                Log.Debug("Intercepted GetDefaultMenu for workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
                 var pluginItems = new List<WorkspaceMenuItem>();
                 foreach (var plugin in AppContext.Current.Plugins) {
                     var items = plugin.GetMenuItems(__instance);
@@ -120,7 +120,7 @@ namespace AffinityEx.Launcher {
                     }
                 }
                 if (pluginItems.Count > 0) {
-                    Log.Debug("Plugin items available, injecting AffinityEx menu in workspace {WorkspaceName}", __instance.Name);
+                    Log.Debug("Plugin items available, injecting AffinityEx menu in workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
                     var items = new List<WorkspaceMenuItem>(__result);
                     items.Add(new WorkspaceMenuItem("AffinityEx", pluginItems));
                     __result = items.AsReadOnly();
@@ -128,7 +128,7 @@ namespace AffinityEx.Launcher {
             }
 
             internal static void Workspace_GetDefauShortcuts_Postfix(Workspace __instance, ref WorkspaceShortcuts __result) {
-                Log.Debug("Intercepted GetDefaultShortcuts for workspace {WorkspaceName}", __instance.Name);
+                Log.Debug("Intercepted GetDefaultShortcuts for workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
                 foreach (var plugin in AppContext.Current.Plugins) {
                     var shortcuts = plugin.GetShortcuts(__instance);
                     if (shortcuts != null) {
