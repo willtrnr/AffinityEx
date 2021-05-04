@@ -5,8 +5,8 @@ Primitive plugin injection system for Serif Affinity products.
 
 Greatly inspired by [BepInEx](https://github.com/BepInEx/BepInEx) and from
 which the name is derived. [Harmony](https://github.com/pardeike/Harmony) is
-used to hook into the original application code to wire plugins in relevant
-places.
+used to hook into the original application code at runtime without altering
+any of the original files.
 
 This repository includes 2 proof of concept plugins demonstrating the
 capabilities. One is bundled directly in the `Launcher` project to provide UI
@@ -17,6 +17,9 @@ commands that are not configurable in the settings.
 No precompiled release will be provided at the moment since, while the author
 has had good success so far, nothing is fully tested or vetted for daily usage.
 You are encouraged to inspect, improve and compile the code yourself.
+
+The author owns a copy of Affinity Designer and Photo only, Publisher is
+assumed to work, but was never tested.
 
 ![](/screenshot.png)
 
