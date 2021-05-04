@@ -1,5 +1,5 @@
-AfinityEx
-=========
+AffinityEx
+==========
 
 Primitive plugin injection system for Serif Affinity products.
 
