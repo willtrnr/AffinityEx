@@ -10,9 +10,9 @@ places.
 
 This repository includes 2 proof of concept plugins demonstrating the
 capabilities. One is bundled directly in the `Launcher` project to provide UI
-feedback of which plugins are active. The other is in the `Plugins` project and
-adds extra keyboard shorcuts to Affinity Designer that made the author's life
-better and prompted this whole endeavour.
+feedback of which plugins are active (screenshot bellow). The other is in the
+`Plugins` project and adds extra keyboard shorcuts to Affinity Designer for
+commands that are not configurable in the settings.
 
 No precompiled release will be provided at the moment since, while the author
 has had good success so far, nothing is fully tested or vetted for daily usage.
