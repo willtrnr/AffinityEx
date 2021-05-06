@@ -15,11 +15,11 @@ namespace AffinityEx.Launcher {
         private static void PatchEntryAssembly(Harmony harmony) {
             harmony.Patch(
                 original: AccessTools.Method(typeof(Assembly), "GetEntryAssembly"),
-                prefix: new HarmonyMethod(typeof(Impl), nameof(Impl.Assembly_GetEntryAssembly_Prefix))
+                prefix: new HarmonyMethod(typeof(Patched), nameof(Patched.Assembly_GetEntryAssembly_Prefix))
             );
         }
 
-        private static class Impl {
+        private static class Patched {
 
             internal static bool Assembly_GetEntryAssembly_Prefix(ref Assembly __result) {
                 var ctx = AppContext.Current;

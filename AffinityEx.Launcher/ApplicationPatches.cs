@@ -34,40 +34,44 @@ namespace AffinityEx.Launcher {
         private static void PatchApplication(Harmony harmony) {
             harmony.Patch(
                 original: AccessTools.PropertyGetter(typeof(Serif.Interop.Persona.Application), "InstallationDirectory"),
-                prefix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_InstallationDirectory_Prefix))
+                prefix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_InstallationDirectory_Prefix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Serif.Affinity.Application), "OnStartup"),
-                prefix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_OnStartup_Prefix))
+                prefix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_OnStartup_Prefix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Serif.Affinity.Application), "InitialiseServices"),
-                postfix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_InitialiseServices_Postfix))
+                postfix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_InitialiseServices_Postfix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Serif.Affinity.Application), "OnServicesInitialised"),
-                postfix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_OnServicesInitialised_Postfix))
+                postfix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_OnServicesInitialised_Postfix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Serif.Affinity.Application), "OnMainWindowLoaded"),
-                postfix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_OnMainWindowLoaded_Postfix))
+                postfix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_OnMainWindowLoaded_Postfix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Serif.Affinity.Application), "OnFirstIdle"),
-                postfix: new HarmonyMethod(typeof(Impl), nameof(Impl.Application_OnFirstIdle_Postfix))
+                postfix: new HarmonyMethod(typeof(Patched), nameof(Patched.Application_OnFirstIdle_Postfix))
             );
         }
 
         private static void PatchWorkspaces(Harmony harmony) {
-            var menuPatch = new HarmonyMethod(typeof(Impl), nameof(Impl.Workspace_GetDefaultMenu_Postfix));
-            var shortcutsPatch = new HarmonyMethod(typeof(Impl), nameof(Impl.Workspace_GetDefaultShortcuts_Postfix));
+            var menuPatch = new HarmonyMethod(typeof(Patched), nameof(Patched.Workspace_GetDefaultMenu_Postfix));
+            var defaultShortcutsPatch = new HarmonyMethod(typeof(Patched), nameof(Patched.Workspace_GetDefaultShortcuts_Postfix));
             foreach (Type type in workspaceTypes) {
                 harmony.Patch(AccessTools.Method(type, "GetDefaultMenu"), postfix: menuPatch);
-                harmony.Patch(AccessTools.Method(type, "GetDefaultShortcuts"), postfix: shortcutsPatch);
+                harmony.Patch(AccessTools.Method(type, "GetDefaultShortcuts"), postfix: defaultShortcutsPatch);
             }
+            harmony.Patch(
+                AccessTools.Method(typeof(Workspace), "RemoveInvalidShortcuts"),
+                postfix: new HarmonyMethod(typeof(Patched), nameof(Patched.Workspace_RemoveInvalidShortcuts_Postfix))
+            );
         }
 
-        private static class Impl {
+        private static class Patched {
 
             internal static bool Application_InstallationDirectory_Prefix(ref string __result) {
                 __result = AppContext.Current.InstallationDirectory;
@@ -127,19 +131,31 @@ namespace AffinityEx.Launcher {
                 }
             }
 
-            internal static void Workspace_GetDefaultShortcuts_Postfix(Workspace __instance, ref WorkspaceShortcuts __result) {
+            internal static void Workspace_GetDefaultShortcuts_Postfix(Workspace __instance, WorkspaceShortcuts __result) {
                 Log.Debug("Intercepted GetDefaultShortcuts for workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
+                InjectPluginShortcuts(__instance, __result);
+            }
+
+            internal static void Workspace_RemoveInvalidShortcuts_Postfix(Workspace __instance, WorkspaceShortcuts ___m_shortcuts) {
+                Log.Debug("Intercepted Shortcuts setter for workspace {WorkspaceName}, forwarding to plugins", __instance.Name);
+                InjectPluginShortcuts(__instance, ___m_shortcuts);
+            }
+
+            private static void InjectPluginShortcuts(Workspace workspace, WorkspaceShortcuts result) {
+                var injected = false;
                 foreach (var plugin in AppContext.Current.Plugins) {
-                    var pluginShortcuts = plugin.GetShortcuts(__instance);
+                    var pluginShortcuts = plugin.GetShortcuts(workspace);
                     if (pluginShortcuts != null) {
-                        __result.Commands.AddRange(pluginShortcuts.Commands);
-                        __result.GlobalCommands.AddRange(pluginShortcuts.GlobalCommands);
-                        __result.ToolTypes.AddRange(pluginShortcuts.ToolTypes);
-                        __result.ToolKeys.AddRange(pluginShortcuts.ToolKeys);
+                        result.Commands.AddRange(pluginShortcuts.Commands);
+                        result.GlobalCommands.AddRange(pluginShortcuts.GlobalCommands);
+                        result.ToolTypes.AddRange(pluginShortcuts.ToolTypes);
+                        result.ToolKeys.AddRange(pluginShortcuts.ToolKeys);
+                        injected = true;
                     }
                 }
-                // Bindings are cached on first read, we need to blow this value to regenerate bindings for our new commands
-                __result.Bindings = null;
+                if (injected) {
+                    result.Bindings = null;
+                }
             }
 
         }

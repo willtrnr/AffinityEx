@@ -9,7 +9,6 @@ namespace AffinityEx.Launcher {
         [STAThread]
         public static void Main(string[] args) {
             Launch(AppName);
-
         }
 
     }
