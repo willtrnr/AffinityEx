@@ -91,7 +91,7 @@ namespace AffinityEx {
             }
             Log.Information("Preparing execution");
             Directory.SetCurrentDirectory(this.InstallationDirectory);
-            this.Application = (Serif.Affinity.Application) Activator.CreateInstance(this.ApplicationType);
+            this.Application = (Serif.Affinity.Application) Activator.CreateInstance(this.ApplicationType, true);
             this.InitialisePlugins();
             Log.Information("Starting wrapped application");
             this.Application.RunSingleInstance();
